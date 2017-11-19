@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jaxws="http://cxf.apache.org/jaxws"
+  xmlns:simple="http://cxf.apache.org/simple" xmlns:cxf="http://cxf.apache.org/core"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans
+  http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
+  http://cxf.apache.org/jaxws
+  http://cxf.apache.org/schemas/jaxws.xsd http://cxf.apache.org/simple http://cxf.apache.org/schemas/simple.xsd http://cxf.apache.org/core http://cxf.apache.org/schemas/core.xsd">
+
+<!--  <jaxws:server id="springCxfService" address="/mywebservice">
+    <jaxws:serviceBean>
+      <ref bean="springCxfServiceImpl"/>
+    </jaxws:serviceBean>
+  </jaxws:server>-->
+
+  <!--simple方式进行发布-->
+ <!-- <simple:server id="springCxfService" serviceClass="#springCxfService" address="/mywebservice">
+    <simple:serviceBean>
+      <ref bean="#springCxfServiceImpl"/>
+    </simple:serviceBean>
+  </simple:server>-->
+
+  <!--endpoint方式-->
+  <jaxws:endpoint id="springCxfService" implementor="#springCxfServiceImpl" address="/mywebservice" >
+  </jaxws:endpoint>
+</beans>

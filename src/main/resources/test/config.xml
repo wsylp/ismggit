@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<!-- <configuration>
+  <typeAliases>
+    这个标签会让student代表 type的值
+    <typeAlias alias="Student" type="study.mybatis.po.Student"/>
+  </typeAliases>
+
+  <environments default="development">
+    <environment id="development">
+      
+      transactionManager
+      有两种事物管理器，一种为jdbc，一种为managed
+      jdbc:-这个配置直接简单使用了JDBC的提交和回滚设置，它依赖于数据源得到的连接来管理事物范围
+      MANAGED:-这个配置几乎不做什么。它从来不提交或回滚一个连接，而它会让容器来管理事物的整个生命周期
+        （比如Spring或J2EE应用服务器的上下文），默认情况下它会关闭连接，然而一些容器并不希望这样，因此如果你需要从连接中停止它，将closeConnection属性设置为false
+          例如：<transactionManager type="MANAGED">
+                  <property name="closeConnection" value="false"/>
+                </transactionManager><transactionManager type="MANAGED">
+     
+      <transactionManager type="JDBC"/>
+      
+        datasource:dataSource元素使用基本的JDBC数据源接口来配置JDBC连接对象的资源。许多MyBatis的应用程序将会按照上面的示例来配置数据源，然而它并不是必须的，
+                    要知道为了方便使用使用延迟加载，数据源才是必须的。有三种内建的数据源类型（也就是type="XXX"）
+
+     
+      <dataSource type="POOLED">
+        <property name="driver" value="com.mysql.jdbc.Driver"/>
+        <property name="url" value="jdbc:mysql://localhost:3306/ismdb"/>
+        <property name="username" value="root"/>
+        <property name="password" value="root"/>
+      </dataSource>
+    </environment>
+  </environments>
+
+  <mappers>
+    使用相对于类路径的资源
+  <mapper resource="test/student.xml"/>
+
+
+</mappers>
+
+
+  <plugins>
+    <plugin interceptor="wsylp.plugins.SqlCostInterceptor"></plugin>
+  </plugins>
+
+</configuration>
+
+
+ -->

@@ -1,0 +1,106 @@
+datasource:
+（1）UNPOOLED
+
+这个数据源的实现是每次被请求时打开和关闭连接。它有一点慢，这是对简单应用程序的一个很好的选择，因为它不需要及时的可用连接，不同的数据库对这个的表现也是不一样的，所以对某些数据库来说配置数据源并不重要，这个配置也是闲置的。UNPOOLED类型的数据源仅仅用来配置以下六种属性：
+
+driver----这是JDBC驱动的Java类的完全限定名
+url----这是数据库的JDBC URL地址
+username----登陆数据库的用户名
+password----登录数据库的密码
+defaultTransactionIsolationLevel----默认的连接事物隔离级别
+driver.encoding----传递数据库驱动的属性，前缀以"driver."开头即可，"driver.encoding"表示的就是传递encoding属性
+（2）POOLED
+
+这是JDBC连接对象的数据源连接池的实现，用来避免创建新的连接实例时必要的连接和认证时间。这是一种当前Web应用程序用来快速响应请求的很流行的方法。除了上述（UNPOOLED）的属性之外，还有些别的属性可以用来配置POOLED数据源：
+
+poolMaximumActiveConnections----在任意时间存在的活动（也就是正在使用）连接的数量，默认值为10
+poolMaximumIdleConnections----任意时间存在的空闲连接数
+poolMaximumCheckoutTime----在被强制返回之前，池中连接被检查的时间，默认值为2000毫秒也就是20秒
+poolTimeToWait、poolPingQuery、poolPingEnabled、poolPingConnectionsNotUsedFor----这些都是一些侦测数据库连接的属性
+（3）JNDI
+
+这个数据源的实现是为了使用如Spring或应用服务器这类的容器，容器可以集中或在外部配置数据源，然后放置一个JNDI上下文的引用。这个数据源只需要两个属性：
+
+initial_context----这个属性用来从初始上下文寻找环境，这个是可选属性，如果被忽略，那么data_source属性将会直接以initialContext为背景再次寻找
+data_source----这是引用数据源实例位置的上下文路径，它会以由initial_context查询返回的环境为背景来查找，如果initial_context没有返回结果时，直接以初始上下文为环境来查找
+
+和其它数据源配置相似，它也可以通过名为"env."的前缀直接向初始上下文发送属性。settings
+
+前面几个都是config.xml里面出现的，下面多讲一个属性，这个属性可以不在config.xml中出现，但是比较重要，写在这里为了以后可以看。
+
+这个属性是settings，是非常重要的调整，它们会改变MyBatis在运行时的行为方式。这面这个表格描述了设置信息，它们的含义和默认值：
+
+参数设置	描述	有效值	默认值
+cachedEnabled	用于配置使全局的映射器启用或禁止缓存	true|false
+true
+
+lazyLoadingEnabled	全局启用或禁用延迟加载。当禁用时，所有关联对象都会即时加载	true|false	true
+aggressiveLazyLoading	当启用时，有延迟加载属性的对象在被调用时将会完全加载任任意属性，否则每种属性将会按需要加载	true|false	true
+multipleResultSetsEnabled	允许或不允许多种结果集从一个单独的语句中返回（需要合适的驱动）	true|false	true
+useColumnLabel	使用列标签代替列名。不同的驱动在这方面表现不同，参考驱动文档或充分测试两种方法来决定所使用的驱动	true|false	true
+useGeneratedKeys	允许JDBC支持生成的键，需要合适的驱动。如果设置为true则这个驱动强制生成的键被使用，尽管一些驱动拒绝兼容但仍然有效。	true|false	true
+autoMappingBehavior	指定MyBatis如何自动映射列到字段/属性PARTIAL只会自动映射简单、没有嵌套的结果。FULL会自动映射任意复杂的结果。	NONE|PARTIAL|FULL	PARTIAL
+defaultExecutorType	配置默认的执行器。SIMPLE执行器没有什么特别之处，REUSE执行器重用预处理语句，BATCH执行器重用语句和批量更新。	SIMPLE|REUSE|BATCH	SIMPLE
+defaultStatementTimeout	设置超时时间，它决定驱动等待一个数据库响应的时间。	任何正整数	Not Set(null)
+一个完整的设置信息元素的示例配置如下：
+
+<settings>
+   <setting name="cacheEnabled" value="true"/>
+   <setting name="lazyLoadingEnabled" value="true"/>
+   <setting name="multipleResultSetsEnabled" value="true"/>
+   <setting name="useColumnLabel" value="true"/>
+   <setting name="useGeneratedKeys" value="false"/>
+   <setting name="enhancementEnabled" value="false"/>
+   <setting name="defaultExecutorType" value="SIMPLE"/>
+   <setting name="defaultStatementTimeout" value="25000"/>
+</settings>
+按 Ctrl+C 复制代码
+config.xml主要的配置信息差不多就是上面这一些，前三个比较重要，settings属于高级设置了，需要比较有经验的开发来依据项目情况做调整。
+
+后面的一篇文章将探讨SQL语句的映射，这也是MyBatis的核心。
+
+（1） @Transactional(propagation = Propagation.REQUIRED)
+
+最重要的先说，propagation属性表示的是事物的传播特性，一共有以下几种：
+
+事物传播特性	作      用
+Propagation.REQUIRED	方法运行时如果已经处在一个事物中，那么就加入到这个事物中，否则自己新建一个事物，REQUIRED是默认的事物传播特性
+Propagation.NOT_SUPPORTED	如果方法没有关联到一个事物，容器不会为它开启一个事物，如果方法在一个事物中被调用，该事物会被挂起直到方法调用结束再继续执行
+Propagation.REQUIRES_NEW	不管是否存在事物，该方法总会为自己发起一个新的事物，如果方法已经运行在一个事物中，则原有事物挂起，新的事物被创建
+Propagation.MANDATORY	该方法只能在一个已经存在的事物中执行，业务方法不能发起自己的事物，如果在没有事物的环境下被调用，容器抛出异常
+Propagation.SUPPORTS	该方法在某个事物范围内被调用，则方法成为该事物的一部分，如果方法在该事物范围内被调用，该方法就在没有事物的环境下执行
+Propagation.NEVER	该方法绝对不能在事物范围内执行，如果在就抛出异常，只有该方法没有关联到任何事物，才正常执行
+Propagation.NESTED	如果一个活动的事物存在，则运行在一个嵌套的事物中。如果没有活动事物，则按REQUIRED属性执行，它只对DataSourceTransactionManager事物管理器有效
+因此我们可以来简单分析一下上面的insertTeacherAndStudent方法：
+
+由于没有指定propagation属性，因此事物传播特性为默认的REQUIRED
+StudentDao的insertStudent方法先运行，此时没有事物，因此新建一个事物
+TeacherDao的insertTeacher方法接着运行，此时由于StudentDao的insertStudent方法已经开启了一个事物，insertTeacher方法加入到这个事物中
+StudentDao的insertStudent方法和TeacherDao的insertTeacher方法组成了一个事物，两个方法要么同时执行成功，要么同时执行失败
+（2）@Transactional(isolation = Isolation.DEFAULT)
+
+事物隔离级别，这个不细说了，可以参看事物及事物隔离级别一文。
+
+（3）@Transactional(readOnly = true)
+
+该事物是否为一个只读事物，配置这个属性可以提高方法执行效率。
+
+（4）@Transactional(rollbackFor = {ArrayIndexOutOfBoundsException.class, NullPointerException.class})
+
+遇到方法抛出ArrayIndexOutOfBoundsException、NullPointerException两种异常会回滚数据，仅支持RuntimeException的子类。
+
+（5）@Transactional(noRollbackFor = {ArrayIndexOutOfBoundsException.class, NullPointerException.class})
+
+这个和上面的相反，遇到ArrayIndexOutOfBoundsException、NullPointerException两种异常不会回滚数据，同样也是仅支持RuntimeException的子类。对（4）、（5）不是很理解的朋友，我给一个例子：
+
+
+@Transactional(rollbackForClassName = {"NullPointerException"})
+public void insertTeacherAndStudent(Teacher teacher, Student student)
+{
+    studentDao.insertStudent(student);
+    teacherDao.insertTeacher(teacher);
+    String s = null;
+    s.length();
+}
+
+构造Student、Teacher的数据运行一下，然后查看下库里面有没有对应的记录就好了，然后再把rollbackForClassName改为noRollbackForClassName，对比观察一下。

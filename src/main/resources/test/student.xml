@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="study.mybatis.mapper.StudentMapper">
+
+  <resultMap type="Student" id="studentResultMap">
+    <id property="studentId" column="studentId" />
+    <result property="studentName" column="studentName" />
+    <result property="studentAge" column="studentAge" />
+    <result property="studentPhone" column="studentPhone" />
+  </resultMap>
+
+  <!--resultMap和resultType不可以同时使用-->
+  <select id="selectAll"  resultMap="studentResultMap" flushCache="false" useCache="true"
+    timeout="10000" fetchSize="100" statementType="PREPARED" resultSetType="FORWARD_ONLY">
+    <![CDATA[
+        select * from e_student ;
+    ]]>
+  </select>
+
+  <select id="selectStudentById" parameterType="int" resultType="study.mybatis.po.Student">
+    <!--
+    使用<![CDATA[ ... ]]>，它可以保证如论如何<![CDATA[ ... ]]>里面的内容都会被解析成SQL语句。因此，建议每一条SQL语句都使用<![CDATA[ ... ]]>包含起来，这也是一种规避错误的做法。
+    -->
+    <![CDATA[
+            select * from e_student where studentId = #{id}
+        ]]>
+
+  </select>
+  <!--查询
+    parameterType-参数类型，如果SQL语句中的动态参数只有一个，这个属性可有可无
+    resultType   -结果类型，注意如果返回结果是集合，应该是集合所包含的类型，而不是集合本身
+    flushCache   -将其设置为true，无论语句什么时候被调用，都会导致缓存被清空，默认值为false
+    useCache     -将其设置为true，将会导致本条语句的结果被缓存，默认值为tru
+    timeout      -这个设置驱动程序等待数据库返回请求结果，并抛出异常事件的最大等待值，默认这个参数是不设置的（即由驱动自行处理）
+    fetchSize    -这是设置驱动程序每次批量返回结果的行数，默认不设置（即由驱动自行处理）
+    statementType-STATEMENT、PREPARED或CALLABLE的一种，这会让MyBatis选择使用Statement、PreparedStatement或CallableStatement，默认值为PREPARED。
+    resultSetType-FORWARD_ONLY、SCROLL_SENSITIVE、SCROLL_INSENSITIVE中的一种，默认不设置（即由驱动自行处理）
+  -->
+  <select id="select" parameterType="int" resultType="Student" flushCache="false" useCache="true"
+    timeout="10000" fetchSize="100" statementType="PREPARED" resultSetType="FORWARD_ONLY">
+    <![CDATA[
+        select * from e_student where studentId > #{id};
+    ]]>
+  </select>
+
+  <select id="selectList" resultType="Student" >
+    <![CDATA[
+        select * from e_student
+    ]]>
+  </select>
+
+
+  <!--主键字段在insert的时候传入null，后者是MyBatis支持的生成主键方式，useGeneratedKeys表示让数据库自动生成主键，keyProperty表示生成主键的列。-->
+<!--  <insert id="insertOneStudent" parameterType="Student">
+    <![CDATA[
+        insert into student    values(null, #{studentName}, #{studentAge}, #{studentPhone});
+    ]]>
+  </insert>-->
+
+  <insert id="insertOneStudent" parameterType="Student" useGeneratedKeys="true" keyProperty="studentId">
+    <![CDATA[
+        insert into student(studentName, studentAge, studentPhone)
+            values(#{studentName}, #{studentAge}, #{studentPhone});
+    ]]>
+  </insert>
+
+  <update id="updateStudentAgeById" parameterType="Student">
+    <![CDATA[
+        update student set studentAge = #{studentAge} where
+            studentId = #{studentId};
+    ]]>
+  </update>
+
+  <delete id="deleteStudentById" parameterType="int">
+    <![CDATA[
+        delete from student where studentId = #{studentId};
+    ]]>
+  </delete>
+
+ <!-- 可以重新定义sql
+  <sql id="insertColumns">
+    studentName, studentAge, studentPhone
+   </sql>
+
+   <insert id="insertOneStudent" parameterType="Student" useGeneratedKeys="true" keyProperty="studentId">
+    insert into student(<include refid="insertColumns" />)
+        values(#{studentName}, #{studentAge}, #{studentPhone});
+   </insert>
+
+ -->
+
+  <select id="selectInCondition" parameterType="student" resultType="student">
+    <![CDATA[
+        select * from student where studentId > #{studentId}
+    ]]>
+    <if test="studentName != null and studentName != 'Jack' ">
+      and studentName = #{studentName}
+    </if>
+    <if test="studentAge != 0">
+      and studentAge = #{studentAge};
+    </if>
+  </select>
+
+
+ <!-- when 两个只能满足一个-->
+  <select id="selectInCondition" parameterType="student" resultType="student">
+    <![CDATA[
+        select * from student where studentId > #{studentId}
+    ]]>
+    <choose>
+      <when test="studentName != null">
+        and studentName = #{studentName};
+      </when>
+      <when test="studentAge != 0">
+        and studentAge = #{studentAge};
+      </when>
+      <otherwise>
+        or 1 = 1;
+      </otherwise>
+    </choose>
+  </select>
+
+  <!--where元素知道如果由被包含的标记返回任意内容，就仅仅插入where。而且，如果以"and"或"or"开头的内容，那么就会跳过where不插入。
+     如果where元素没有做出你想要的，那么可以使用trim元素来自定义。比如，和where元素相等的trim元素是：-->
+
+  <select id="selectInCondition" parameterType="student" resultType="student">
+    select * from student
+    <trim prefix="WHERE" prefixOverrides="AND |OR ">
+      <if test="studentName != null and studentName != 'Jack' ">
+        and studentName = #{studentName}
+      </if>
+      <if test="studentAge != 0">
+        and studentAge = #{studentAge};
+      </if>
+    </trim>
+  </select>
+
+  <update id="updateStudentAgeById" parameterType="Student">
+    <!--update student set studentAge = #{studentAge} where
+        studentId = #{studentId}; -->
+    <![CDATA[
+        update student
+    ]]>
+    <set>
+      <if test="studentAge != 0">studentAge = #{studentAge}</if>
+    </set>
+    where studentId = #{studentId}
+  </update>
+
+<!--foreach-->
+  <select id="selectPostIn" resultType="domain.blog.Post">
+    <![CDATA[
+        SELECT * FROM POST P WHERE ID in
+    ]]>
+    <foreach item="item" index="index" collection="list"
+      open="(" separator="," close=")">
+      #{item}
+    </foreach>
+  </select>
+
+
+</mapper>

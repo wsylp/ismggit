@@ -1,0 +1,47 @@
+a{
+  text-decoration: none;
+}
+
+a:hover{
+  text-decoration: none;
+}
+
+.dropdown-menu  {
+  z-index: 10;
+  border: none;
+  box-shadow: none;
+  margin-top: -4px;
+  background: #f9f9f9;
+  min-width: 175px;
+  position: absolute;
+  float: left;
+  list-style: none;
+  text-shadow: none;
+  padding: 0;
+  margin: 10px 0 0;
+  font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+
+}
+
+.dropdown-menu >li{
+  display: inline-block;
+  float: left;
+}
+.dropdown-menu-fw{
+  left:15px;
+  right:15px;
+}
+#collapseOne >li{
+  float: left;
+}
+
+
+.panel-collapse {
+  height: 35px;
+}
+.panel-collapse > li{
+  list-style-type: none;
+  margin-right: 10px;
+  font-size: 20px;
+
+}
