@@ -14,7 +14,7 @@ public class SimpleConnect {
     static Jedis jedis;
 
     static void init() {
-        jedis = new Jedis("192.168.2.249");
+        jedis = new Jedis("192.168.2.219");
         System.out.println(jedis.ping());
     }
 

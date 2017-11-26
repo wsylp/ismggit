@@ -12,7 +12,7 @@ import wsylp.service.UserService;
  * Created by wsylp on 2017/7/22.
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = "classpath*:spring-*.xml")
+@ContextConfiguration(locations = "classpath*:ismg/spring-*.xml")
 public class UserServiceTest {
 
     @Autowired

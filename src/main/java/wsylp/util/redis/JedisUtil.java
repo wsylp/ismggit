@@ -20,13 +20,9 @@ public class JedisUtil {
     private static Logger logger = LogManager.getLogger(JedisUtil.class.getName());
 
     private JedisUtil() {
-
-    }
-
-    ;
+    };
 
     private static class RedisUtilHolder {
-
         private static final JedisUtil instance = new JedisUtil();
     }
 
@@ -44,11 +40,9 @@ public class JedisUtil {
             JedisPoolConfig config = new JedisPoolConfig();
             config.setMaxTotal(RedisConfig.MAX_TOTAL);
             config.setMaxIdle(RedisConfig.MAX_IDLE);
-            //config.setMaxWait();
             config.setMaxWaitMillis(RedisConfig.MAX_WAIT);
             config.setTestOnBorrow(true);
             config.setTestOnReturn(true);
-
             pool = new JedisPool(config, ip, port, RedisConfig.TIMEOUT);
             maps.put(key, pool);
         } else {

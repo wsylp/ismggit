@@ -13,7 +13,7 @@ import wsylp.ws.spring_cxf.SpringCxfService;
  * Created by wsylp on 2017/10/21.
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"classpath*:spring-*.xml"})
+@ContextConfiguration(locations = {"classpath*:ismg/spring-*.xml"})
 public class WsTest {
 
     @Autowired
