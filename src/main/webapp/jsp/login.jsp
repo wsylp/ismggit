@@ -21,8 +21,7 @@ License: You must have a valid license purchased only from themeforest(the above
 
 <head>
     <meta charset="utf-8"/>
-    <title>Metronic | The Ultimate Multi-purpose Bootstrap Admin Dashboard Theme | Theme #5 | User
-        Login 1</title>
+    <title>我的系统</title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta content="width=device-width, initial-scale=1" name="viewport"/>
     <meta content="#1 selling multi-purpose bootstrap admin theme sold in themeforest marketplace packed with angularjs, material design, rtl support with over thausands of templates and ui elements and plugins to power any type of web applications including saas and admin dashboards. Preview page of Theme #5 for "
@@ -71,14 +70,14 @@ License: You must have a valid license purchased only from themeforest(the above
         <div class="form-group">
             <!--ie8, ie9 does not support html5 placeholder, so we just show field title for that-->
             <label class="control-label visible-ie8 visible-ie9">Username</label>
-            <input class="form-control form-control-solid placeholder-no-fix" type="text"
-                   autocomplete="off" placeholder="loginName" name="loginName"/></div>
+            <input id="loginName" class="form-control form-control-solid placeholder-no-fix" type="text"
+                   autocomplete="off" placeholder="loginName" name="loginName" /></div>
         <div class="form-group">
             <label class="control-label visible-ie8 visible-ie9">Password</label>
-            <input class="form-control form-control-solid placeholder-no-fix" type="password"
-                   autocomplete="off" placeholder="Password" name="password"/></div>
+            <input id="password" class="form-control form-control-solid placeholder-no-fix" type="password"
+                   autocomplete="off" placeholder="Password" name="password" /></div>
         <div class="form-actions">
-            <button type="submit" class="btn green uppercase">Login</button>
+            <button name="login" id="login" type="submit" class="btn green uppercase">Login</button>
             <label class="rememberme check mt-checkbox mt-checkbox-outline">
                 <input type="checkbox" name="remember" value="1"/>Remember
                 <span></span>
@@ -183,7 +182,7 @@ License: You must have a valid license purchased only from themeforest(the above
     </form>
     <!-- END REGISTRATION FORM -->
 </div>
-<div class="copyright"> 2017 © wsylp blob</div>
+<div class="copyright"> 2017 Â© wsylp blob</div>
 <!--[if lt IE 9]>
 <script src="resources/login/respond.min.js"></script>
 <script src="resources/login/excanvas.min.js"></script>

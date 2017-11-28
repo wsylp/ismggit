@@ -41,7 +41,7 @@
 
   <!-- 注解aspect-->
  <aop:aspectj-autoproxy/>
-  <bean class="wsylp.log.MyLog"></bean>
+  <bean id="myLog" class="wsylp.log.MyLog"></bean>
 
 
   <!--实现advice接口-->

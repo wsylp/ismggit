@@ -7,11 +7,11 @@
   http://cxf.apache.org/jaxws
   http://cxf.apache.org/schemas/jaxws.xsd http://cxf.apache.org/simple http://cxf.apache.org/schemas/simple.xsd http://cxf.apache.org/core http://cxf.apache.org/schemas/core.xsd">
 
-<!--  <jaxws:server id="springCxfService" address="/mywebservice">
+  <jaxws:server id="springCxfService" address="/mywebservice">
     <jaxws:serviceBean>
       <ref bean="springCxfServiceImpl"/>
     </jaxws:serviceBean>
-  </jaxws:server>-->
+  </jaxws:server>
 
   <!--simple方式进行发布-->
  <!-- <simple:server id="springCxfService" serviceClass="#springCxfService" address="/mywebservice">

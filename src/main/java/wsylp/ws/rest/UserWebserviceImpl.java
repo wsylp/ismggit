@@ -19,7 +19,7 @@ import org.springframework.stereotype.Service;
 import wsylp.po.User;
 import wsylp.service.UserService;
 
-@Component
+//@Component
 public class UserWebserviceImpl implements UserWebservice {
 
     @Autowired

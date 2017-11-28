@@ -11,14 +11,14 @@
 
   <bean id="jsonProvider" class="com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider"/>
 
- <jaxrs:server address="/rest">
+ <!-- <jaxrs:server address="/rest">
     <jaxrs:serviceBeans>
       <ref bean="userWebserviceImpl"/>
     </jaxrs:serviceBeans>
     <jaxrs:providers>
       <ref bean="jsonProvider"/>
     </jaxrs:providers>
-  </jaxrs:server>
+  </jaxrs:server> -->
 
   <!--jsonp使用,解决跨域问题-->
   <!--<bean id="jsonpInInterceptor" class="org.apache.cxf.jaxrs.provider.jsonp.JsonpInInterceptor"/>
@@ -42,7 +42,7 @@
   </jaxrs:server>
 -->
   <!--使用 CORS 解决 AJAX 跨域问题-->
-  <jaxrs:server address="/rest">
+  <!-- <jaxrs:server address="/rest">
     <jaxrs:serviceBeans>
       <ref bean="userWebserviceImpl"/>
     </jaxrs:serviceBeans>
@@ -52,6 +52,6 @@
         <property name="allowOrigins" value="http://localhost"/>
       </bean>
     </jaxrs:providers>
-  </jaxrs:server> 
+  </jaxrs:server>  -->
 
 </beans>

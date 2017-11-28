@@ -9,7 +9,7 @@
   <context-param>
     <param-name>contextConfigLocation</param-name>
    <!-- ,classpath*:spring-cxf-rest.xml-->
-    <param-value>classpath:ismg/spring-m*.xml,classpath*:spring-cxf-rest.xml</param-value>
+    <param-value>classpath:ismg/spring-m*.xml,classpath*:spring-cxf*.xml</param-value>
   </context-param>
   <!-- spring监听器 -->
   <listener>
