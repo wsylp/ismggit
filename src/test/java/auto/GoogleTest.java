@@ -369,5 +369,6 @@ public class GoogleTest {
         // 回到主窗口
         driver.switchTo().defaultContent();
         driver.findElement(By.id("maininput")).sendKeys("main input");
+        
     }
 }
